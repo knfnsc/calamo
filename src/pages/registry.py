@@ -1,7 +1,6 @@
 from typing import List
 
 import models as models
-from tortoise import Tortoise
 
 from nicegui import ui
 
@@ -16,19 +15,26 @@ async def list_of_products() -> None:
     for product in reversed(products):
         with ui.card():
             with ui.row().classes("items-center"):
-                ui.input("Nome", on_change=product.save) \
-                    .bind_value(product, "name").on("blur", list_of_products.refresh)
-                ui.number("Preço", on_change=product.save) \
-                    .bind_value(product, "price").on("blur", list_of_products.refresh).classes("w-20")
-                ui.number("Estoque", on_change=product.save, format="%.0f") \
-                    .bind_value(product, "stock").on("blur", list_of_products.refresh).classes("w-20")
-                ui.button(icon="delete", on_click=lambda p=product: delete(p)).props("flat")
+                ui.input("Nome", on_change=product.save).bind_value(product, "name").on(
+                    "blur", list_of_products.refresh
+                )
+                ui.number("Preço", on_change=product.save).bind_value(
+                    product, "price"
+                ).on("blur", list_of_products.refresh).classes("w-20")
+                ui.number("Estoque", on_change=product.save, format="%.0f").bind_value(
+                    product, "stock"
+                ).on("blur", list_of_products.refresh).classes("w-20")
+                ui.button(icon="delete", on_click=lambda p=product: delete(p)).props(
+                    "flat"
+                )
 
 
 @ui.page("/registry")
 async def registry():
     async def create() -> None:
-        await models.Product.create(name=name.value, price=price.value, stock=stock.value)
+        await models.Product.create(
+            name=name.value, price=price.value, stock=stock.value
+        )
         name.value = ""
         price.value = 0.05
         stock.value = 1
