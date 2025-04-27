@@ -6,6 +6,5 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "nicegui>=2.11.1",
-    "ruff>=0.9.6",
     "tortoise-orm>=0.24.0",
 ]
